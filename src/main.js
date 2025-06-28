@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 // Create the scene
 const scene = new THREE.Scene();
 
@@ -19,25 +19,46 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+const loader = new RGBELoader();
+loader.load("https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/moonlit_golf_1k.hdr", (texture) => {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+scene.background = texture;
+  scene.environment = texture;
+});
+
 const radius = 1.3;
 const segments = 64;
 const orbitRadius = 4.5;
 const color = [0x0077ff, 0x00ff00, 0xff0000, 0xffff00, 0x00ffff, 0xff00ff];
+const textures = ['./csilla/color.png','./earth/map.jpg','./venus/map.jpg','volcanic/color.png']
 const spheres = new THREE.Group();
+// Create a large sphere to act as the star background
+const starTextureLoader = new THREE.TextureLoader();
+const starTexture = starTextureLoader.load('./stars.jpg'); // Make sure this texture exists in your project
 
-
+const starGeometry = new THREE.SphereGeometry(50, 64, 64);
+const starMaterial = new THREE.MeshBasicMaterial({
+  map: starTexture,
+  side: THREE.BackSide // Render inside of sphere
+});
+const starSphere = new THREE.Mesh(starGeometry, starMaterial);
+scene.add(starSphere);
 
 for (let i = 0; i < 4; i++) {
+  const textureLoader = new THREE.TextureLoader();
+  const texture = textureLoader.load(textures[i]);
   const geometry = new THREE.SphereGeometry(radius, segments, segments);
-  const material = new THREE.MeshBasicMaterial({ color: color[i] });
+  const material = new THREE.MeshBasicMaterial({ map: texture });
   const cube = new THREE.Mesh(geometry, material);
-  
+  // Create a texture loader
+
   const angle = (i / 4) * (Math.PI * 2);
   cube.position.x = orbitRadius * Math.cos(angle);
   cube.position.z = orbitRadius * Math.sin(angle);
   spheres.add(cube);
 }
-spheres.rotation.x = 0.26
+spheres.rotation.x = 0.15
+spheres.position.y = -0.8
 scene.add(spheres);
 // Create a sphere geometry and add it to the scene
 
@@ -46,7 +67,6 @@ camera.position.z = 8;
 
 // Add OrbitControls
 
-const controls = new OrbitControls(camera, renderer.domElement);
 
 
 setInterval(()=>{
@@ -55,13 +75,13 @@ gsap.to(spheres.rotation, {
   duration: 2,
   ease: "expo.inOut",
 });
-},2000)
+},2500)
 
 
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
-  controls.update()
+
   // Rotate the cube for some basic animation
 
 
