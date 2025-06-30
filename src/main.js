@@ -35,10 +35,11 @@ const spheres = new THREE.Group();
 // Create a large sphere to act as the star background
 const starTextureLoader = new THREE.TextureLoader();
 const starTexture = starTextureLoader.load('./stars.jpg'); // Make sure this texture exists in your project
-
+starTexture.colorSpace = THREE.SRGBColorSpace;
 const starGeometry = new THREE.SphereGeometry(50, 64, 64);
-const starMaterial = new THREE.MeshBasicMaterial({
+const starMaterial = new THREE.MeshStandardMaterial({
   map: starTexture,
+
   side: THREE.BackSide // Render inside of sphere
 });
 const starSphere = new THREE.Mesh(starGeometry, starMaterial);
@@ -47,6 +48,7 @@ scene.add(starSphere);
 for (let i = 0; i < 4; i++) {
   const textureLoader = new THREE.TextureLoader();
   const texture = textureLoader.load(textures[i]);
+  texture.colorSpace = THREE.SRGBColorSpace;
   const geometry = new THREE.SphereGeometry(radius, segments, segments);
   const material = new THREE.MeshBasicMaterial({ map: texture });
   const cube = new THREE.Mesh(geometry, material);
