@@ -1,19 +1,33 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <link rel="stylesheet" href="/src/style.css">
-  </head>
-  <body>
-    <div id="app">
-      <div class="ui">
-        <nav></nav>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+  <div id="app">
+    <div class="ui">
+      <nav class="nav ">
+        <h4>Planets</h4>
+        <div class="under-nav ">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+      <div class="inner-div">
+        <h1>Earth</h1>
+        <p>Lorem ipsum dolor sit.</p>
       </div>
-      <canvas id="canvas"></canvas>
     </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <canvas id="canvas"></canvas>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
