@@ -79,7 +79,20 @@ gsap.to(spheres.rotation, {
 });
 },2500)
 
+let lastScrollTime = 0;
+const throttleDelay = 2000; // 2 seconds in milliseconds
+function handleScroll(event) {
+const currentTime = Date.now();
 
+if (currentTime - lastScrollTime >= throttleDelay) {
+  // Your scroll event code here
+  lastScrollTime = currentTime;
+  console.log('Scroll event throttled - running once every 2 seconds');
+  console.log(event.deltaY > 0 ? 'down' : 'up');
+  // Update the last scroll time
+}
+}
+window.addEventListener('scroll', handleScroll);
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
